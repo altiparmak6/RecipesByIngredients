@@ -1,0 +1,22 @@
+PODS:
+  - CardSlider (0.1.0)
+  - SDWebImage (5.12.1):
+    - SDWebImage/Core (= 5.12.1)
+  - SDWebImage/Core (5.12.1)
+
+DEPENDENCIES:
+  - CardSlider
+  - SDWebImage (~> 5.0)
+
+SPEC REPOS:
+  trunk:
+    - CardSlider
+    - SDWebImage
+
+SPEC CHECKSUMS:
+  CardSlider: 0a8f5f17f5a76701771794b07fdaeddc512358c8
+  SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
+
+PODFILE CHECKSUM: 3f577183751be42cec5dd8fe6ca16d442e351bcc
+
+COCOAPODS: 1.11.2

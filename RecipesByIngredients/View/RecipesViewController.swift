@@ -13,9 +13,10 @@ class RecipesViewController: UIViewController {
     
     private let searchBar: UISearchBar = {
         let bar = UISearchBar()
-        bar.placeholder = "Enter ingredients..."
+        bar.placeholder = "Spaces between items..."
         bar.showsCancelButton = true
         bar.autocapitalizationType = .none
+        bar.returnKeyType = .search
         return bar
     }()
     
@@ -66,10 +67,19 @@ class RecipesViewController: UIViewController {
     
     
     @objc func searchTapped() {
-        guard let query = searchBar.text else {
+        guard let ingredientsString = searchBar.text else {
             return
         }
-        viewModel.fetchRecipes(query: query)
+        if ingredientsString.isEmpty {
+            let ac = UIAlertController(title: "Error",
+                                       message: "Please enter ingredients using spaces to search",
+                                       preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+            present(ac, animated: true)
+            return
+        }
+        
+        viewModel.fetchRecipes(ingredients: ingredientsString)
     }
     
     
@@ -84,6 +94,10 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecipesTableViewCell.identifier, for: indexPath) as! RecipesTableViewCell
         cell.configure(with: viewModel.recipes.value?[indexPath.row])
+        cell.accessoryType = .disclosureIndicator
+        
+        //in order to download images only when cell is visible, you can use this method. This is where the image downloading part happens
+        
         return cell
     }
     
@@ -94,7 +108,11 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         //DETAIL VIEW
+        
+        let detailView = DetailViewController()
+        navigationController?.pushViewController(detailView, animated: true)
     }
 }
 
@@ -105,4 +123,13 @@ extension RecipesViewController: UISearchBarDelegate {
         searchBar.text = ""
         searchBar.resignFirstResponder()
     }
+    
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let ingredientsString = searchBar.text else {
+            return
+        }
+        viewModel.fetchRecipes(ingredients: ingredientsString)
+    }
 }
+

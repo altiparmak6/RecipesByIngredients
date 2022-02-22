@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class RecipesTableViewCell: UITableViewCell {
     
@@ -13,9 +14,11 @@ class RecipesTableViewCell: UITableViewCell {
     
     private let recipeImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.masksToBounds = true
         imageView.image = UIImage(systemName: "fork.knife.circle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        //imageView.layer.cornerRadius = 50
         return imageView
     }()
     
@@ -58,6 +61,8 @@ class RecipesTableViewCell: UITableViewCell {
         }
         titleLabel.text = recipe.title
         ingredientLabel.text = "Number of extra ingredients: \(recipe.missedIngredientCount)"
+        recipeImageView.sd_setImage(with: URL(string: recipe.image),
+                                    placeholderImage: UIImage(systemName: "fork.knife.circle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal))
     }
     
     override func layoutSubviews() {

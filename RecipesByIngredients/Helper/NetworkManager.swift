@@ -13,7 +13,7 @@ protocol NetworkManagerProtocol {
 
 struct NetworkManager: NetworkManagerProtocol{
     private static let apiKey = "1f4e274353f34cd4957b1c125db6f60e"
-    private let baseUrl = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=\(apiKey)&ingredients="
+    private let baseUrl = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=\(apiKey)&number=20&ingredients="
     
 
     
@@ -46,8 +46,8 @@ struct NetworkManager: NetworkManagerProtocol{
         do{
             let decodedData = try decoder.decode([Recipe].self, from: data)
             for recipe in decodedData {
-                print(recipe.id)
-                print(recipe.image)
+                //print(recipe.id)
+                //print(recipe.image)
             }
             completionHandler(decodedData)
         } catch {
